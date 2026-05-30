@@ -1,0 +1,157 @@
+<div class="transactions-page">
+
+  <div class="page-header">
+    <div>
+      <h1>Transacciones</h1>
+      <p>{{ transactionService.transactions().length }} registros ·
+         {{ filteredTransactions().length }} visibles</p>
+    </div>
+    <div class="header-actions">
+      <button mat-stroked-button (click)="exportCsv()">
+        <mat-icon>table_view</mat-icon> Exportar Excel
+      </button>
+      <button mat-flat-button (click)="openDialog()">
+        <mat-icon>add</mat-icon> Nueva transacción
+      </button>
+    </div>
+  </div>
+
+  <div class="summary-bar card">
+    <div class="summary-item">
+      <span class="summary-label">Ingresos</span>
+      <span class="summary-value income">{{ periodIncome() | cop:true }}</span>
+    </div>
+    <div class="summary-divider"></div>
+    <div class="summary-item">
+      <span class="summary-label">Gastos</span>
+      <span class="summary-value expense">{{ periodExpenses() | cop }}</span>
+    </div>
+    <div class="summary-divider"></div>
+    <div class="summary-item">
+      <span class="summary-label">Balance</span>
+      <span class="summary-value"
+            [class.income]="periodBalance() >= 0"
+            [class.expense]="periodBalance() < 0">
+        {{ periodBalance() | cop:true }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Búsqueda -->
+  <div class="search-bar">
+    <span class="material-symbols-rounded search-icon">search</span>
+    <input class="search-input"
+           type="text"
+           placeholder="Buscar por descripción, categoría..."
+           [value]="searchQuery()"
+           (input)="setSearch($any($event.target).value)" />
+    @if (searchQuery()) {
+      <button class="search-clear" (click)="setSearch('')">
+        <span class="material-symbols-rounded">close</span>
+      </button>
+    }
+  </div>
+
+  <!-- Selector de período -->
+  <div class="period-bar">
+    <div class="period-selector">
+      <span class="material-symbols-rounded">calendar_month</span>
+      <span class="period-label">{{ currentPeriodLabel() | titlecase }}</span>
+      <button class="period-clear" (click)="clearPeriod()"
+              [class.visible]="selectedMonth() !== null">
+        <span class="material-symbols-rounded">close</span>
+      </button>
+    </div>
+    <div class="period-months">
+      @for (year of getAvailableYears(); track year) {
+        @for (month of months; track month.value) {
+          <button class="period-btn"
+                  [class.active]="selectedMonth() === month.value && selectedYear() === year"
+                  (click)="selectPeriod(month.value, year)">
+            {{ month.label.slice(0, 3) }} {{ year }}
+          </button>
+        }
+      }
+    </div>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filter-bar">
+    <button class="filter-btn" [class.active]="activeFilter() === 'all'"
+            (click)="setFilter('all')">
+      Todas <span class="filter-count">{{ filteredTransactions().length }}</span>
+    </button>
+    <button class="filter-btn income" [class.active]="activeFilter() === 'income'"
+            (click)="setFilter('income')">
+      Ingresos
+    </button>
+    <button class="filter-btn expense" [class.active]="activeFilter() === 'expense'"
+            (click)="setFilter('expense')">
+      Gastos
+    </button>
+  </div>
+
+  @if (filteredTransactions().length === 0) {
+    <div class="empty-state">
+      <span class="material-symbols-rounded">receipt_long</span>
+      <p class="empty-title">No hay transacciones</p>
+      <p class="empty-sub">
+        @if (searchQuery()) { Sin resultados para "{{ searchQuery() }}" }
+        @else if (selectedMonth() !== null) { Sin registros en este período }
+        @else { Agrega tu primera transacción }
+      </p>
+      <button mat-flat-button (click)="openDialog()">
+        <mat-icon>add</mat-icon> Agregar
+      </button>
+    </div>
+  } @else {
+    <div class="tx-list card">
+      @for (tx of filteredTransactions(); track tx.id; let last = $last) {
+        <div class="tx-item" [class.last]="last">
+
+          <div class="tx-icon"
+               [class.income]="tx.type === 'income'"
+               [class.expense]="tx.type === 'expense'">
+            <span class="material-symbols-rounded">{{ getCategoryIcon(tx.category) }}</span>
+          </div>
+
+          <div class="tx-info">
+            <p class="tx-desc">{{ tx.description }}</p>
+            <p class="tx-meta">
+              {{ getCategoryLabel(tx.category) }} ·
+              {{ tx.date | date:'d MMM yyyy' }}
+              @if (tx.note) { · {{ tx.note }} }
+            </p>
+          </div>
+
+          <div class="tx-right">
+            <span class="tx-amount"
+                  [class.income]="tx.type === 'income'"
+                  [class.expense]="tx.type === 'expense'">
+              {{ tx.amount | cop:tx.type === 'income' }}
+            </span>
+            <span class="type-chip {{ tx.type }}">
+              {{ tx.type === 'income' ? 'Ingreso' : 'Gasto' }}
+            </span>
+          </div>
+
+          <button mat-icon-button [matMenuTriggerFor]="menu" class="tx-menu">
+            <mat-icon>more_horiz</mat-icon>
+          </button>
+
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="openDialog(tx)">
+              <mat-icon>edit</mat-icon> Editar
+            </button>
+            <button mat-menu-item (click)="deleteTransaction(tx.id, tx.description)"
+                    class="delete-item">
+              <mat-icon>delete_outline</mat-icon> Eliminar
+            </button>
+          </mat-menu>
+
+        </div>
+      }
+    </div>
+  }
+
+</div>

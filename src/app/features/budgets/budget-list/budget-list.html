@@ -1,0 +1,84 @@
+<div class="budgets-page">
+
+  <div class="page-header">
+    <div>
+      <h1>Presupuestos</h1>
+      <p>{{ monthName | titlecase }} · {{ budgets().length }} categorías</p>
+    </div>
+    <button mat-flat-button (click)="openDialog()">
+      <mat-icon>add</mat-icon> Nuevo presupuesto
+    </button>
+  </div>
+
+  @if (budgets().length === 0) {
+    <div class="empty-state">
+      <span class="material-symbols-rounded">account_balance_wallet</span>
+      <p class="empty-title">Sin presupuestos este mes</p>
+      <p class="empty-sub">Define límites de gasto por categoría</p>
+      <button mat-flat-button (click)="openDialog()">
+        <mat-icon>add</mat-icon> Crear presupuesto
+      </button>
+    </div>
+  } @else {
+    <div class="budgets-grid">
+      @for (budget of budgets(); track budget.id) {
+        <div class="budget-card card" [class]="'status-' + getStatus(budget)">
+
+          <div class="budget-header">
+            <div class="budget-icon-wrap">
+              <span class="material-symbols-rounded">{{ getCategoryIcon(budget.category) }}</span>
+            </div>
+            <div class="budget-info">
+              <p class="budget-cat">{{ getCategoryLabel(budget.category) }}</p>
+              <p class="budget-period">{{ monthName | titlecase }}</p>
+            </div>
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="openDialog(budget)">
+                <mat-icon>edit</mat-icon> Editar
+              </button>
+              <button mat-menu-item (click)="deleteBudget(budget.id, budget.category)">
+                <mat-icon>delete_outline</mat-icon> Eliminar
+              </button>
+            </mat-menu>
+          </div>
+
+          <div class="budget-amounts">
+            <div class="amount-row">
+              <span class="amount-spent">{{ getSpent(budget) | cop }}</span>
+              <span class="amount-sep">de</span>
+              <span class="amount-limit">{{ budget.limit | cop }}</span>
+            </div>
+            <span class="amount-remaining" [class.over]="getSpent(budget) > budget.limit">
+              @if (getSpent(budget) > budget.limit) {
+                {{ getSpent(budget) - budget.limit | cop }} sobre el límite
+              } @else {
+                {{ budget.limit - getSpent(budget) | cop }} restantes
+              }
+            </span>
+          </div>
+
+          <div class="progress-track">
+            <div class="progress-fill"
+                 [style.width.%]="getPercent(budget)"
+                 [class]="'fill-' + getStatus(budget)">
+            </div>
+          </div>
+
+          <div class="progress-labels">
+            <span class="progress-pct">{{ getPercent(budget) }}%</span>
+            <span class="progress-status {{ getStatus(budget) }}">
+              @if (getStatus(budget) === 'danger') { ⚠ Límite alcanzado }
+              @else if (getStatus(budget) === 'warning') { ⚡ Casi al límite }
+              @else { ✓ En control }
+            </span>
+          </div>
+
+        </div>
+      }
+    </div>
+  }
+
+</div>

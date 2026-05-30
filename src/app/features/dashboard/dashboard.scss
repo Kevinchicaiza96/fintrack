@@ -1,0 +1,186 @@
+.dashboard {
+  max-width: 1200px;
+}
+
+// ── Stats ──────────────────────────────────────────
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  .material-symbols-rounded { 
+    font-size: 22px; 
+    font-variation-settings: 'FILL' 0, 'wght' 300;
+  }
+
+  &.balance  { background: #f5f3ff; color: var(--accent); }
+  &.income   { background: var(--income-light); color: var(--income); }
+  &.expense  { background: var(--expense-light); color: var(--expense); }
+  &.savings  { background: #fef3c7; color: #d97706; }
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: #bbb;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: 800;
+  color: #111;
+  letter-spacing: -1px;
+  line-height: 1;
+  font-family: var(--font-mono);
+
+  &.positive { color: var(--income); }
+  &.negative { color: var(--expense); }
+  &.income   { color: var(--income); }
+  &.expense  { color: var(--expense); }
+}
+
+// ── Grid ──────────────────────────────────────────
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 20px;
+}
+
+// ── Gráfica ────────────────────────────────────────
+.chart-card { padding: 24px; }
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+
+  h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: #111;
+    margin: 0;
+  }
+}
+
+.card-link {
+  font-size: 11px;
+  color: var(--accent);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  &:hover { text-decoration: underline; }
+}
+
+.chart-wrap {
+  height: 280px;
+  position: relative;
+}
+
+// ── Recientes ──────────────────────────────────────
+.recent-card { padding: 24px; }
+
+.recent-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.recent-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 8px;
+  border-radius: var(--radius-md);
+  transition: background 0.15s;
+
+  &:hover { background: #fafaf8; }
+}
+
+.recent-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  .material-symbols-rounded {
+    font-size: 17px;
+    font-variation-settings: 'FILL' 1, 'wght' 400;
+  }
+
+  &.income  { background: var(--income-light);  color: var(--income); }
+  &.expense { background: var(--expense-light); color: var(--expense); }
+}
+
+.recent-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.recent-desc {
+  font-size: 13px;
+  font-weight: 500;
+  color: #111;
+  margin: 0 0 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recent-cat {
+  font-size: 11px;
+  color: #bbb;
+  margin: 0;
+  font-family: var(--font-mono);
+}
+
+.recent-amount {
+  font-size: 13px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+
+  &.income  { color: var(--income); }
+  &.expense { color: var(--expense); }
+}
+
+// ── Empty ──────────────────────────────────────────
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  gap: 8px;
+  text-align: center;
+
+  .material-symbols-rounded { font-size: 32px; color: #e5e5e5; }
+  p { font-size: 13px; color: #bbb; margin: 0; }
+}

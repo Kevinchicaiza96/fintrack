@@ -1,0 +1,161 @@
+.budgets-page { max-width: 1000px; }
+
+.budgets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.budget-card {
+  padding: 20px;
+  transition: all 0.2s ease;
+
+  &.status-danger  { 
+    border-top: 3px solid var(--expense); 
+    background: linear-gradient(135deg, #fff 0%, #f5f5f5 100%);
+  }
+  &.status-warning { 
+    border-top: 3px solid #f59e0b;
+    background: linear-gradient(135deg, #fff 0%, #fffbeb 100%);
+  }
+  &.status-safe    { 
+    border-top: 3px solid var(--income); 
+    background: linear-gradient(135deg, #fff 0%, #f0fdf4 100%);
+  }
+}
+
+.budget-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.budget-icon-wrap {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #f7f7f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  .material-symbols-rounded {
+    font-size: 20px;
+    color: #888;
+    font-variation-settings: 'FILL' 1, 'wght' 400;
+  }
+}
+
+.budget-info { flex: 1; min-width: 0; }
+
+.budget-cat {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 2px;
+}
+
+.budget-period {
+  font-size: 11px;
+  color: #bbb;
+  margin: 0;
+  font-family: var(--font-mono);
+  text-transform: capitalize;
+}
+
+.budget-amounts {
+  margin-bottom: 12px;
+}
+
+.amount-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.amount-spent {
+  font-size: 22px;
+  font-weight: 800;
+  color: #111;
+  font-family: var(--font-mono);
+  letter-spacing: -0.5px;
+}
+
+.amount-sep {
+  font-size: 12px;
+  color: #bbb;
+}
+
+.amount-limit {
+  font-size: 14px;
+  font-weight: 600;
+  color: #bbb;
+  font-family: var(--font-mono);
+}
+
+.amount-remaining {
+  font-size: 11px;
+  color: var(--income);
+  font-family: var(--font-mono);
+  font-weight: 500;
+
+  &.over { color: var(--expense); }
+}
+
+.progress-track {
+  height: 6px;
+  background: #f5f5f5;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.fill-safe    { background: var(--income); }
+  &.fill-warning { background: #f59e0b; }
+  &.fill-danger  { background: var(--expense); }
+}
+
+.progress-labels {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.progress-pct {
+  font-size: 11px;
+  color: #bbb;
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+
+.progress-status {
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--font-mono);
+
+  &.safe    { color: var(--income); }
+  &.warning { color: #d97706; }
+  &.danger  { color: var(--expense); }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px 20px;
+  gap: 10px;
+  text-align: center;
+
+  .material-symbols-rounded { font-size: 40px; color: #e5e5e5; }
+}
+
+.empty-title { font-size: 15px; font-weight: 700; color: #111; margin: 0; }
+.empty-sub   { font-size: 12px; color: #bbb; margin: 0 0 8px; }

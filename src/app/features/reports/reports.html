@@ -1,0 +1,97 @@
+<div class="reports-page">
+
+  <div class="page-header">
+    <div>
+      <h1>Reportes</h1>
+      <p>Análisis de tus finanzas</p>
+    </div>
+  </div>
+
+  <div class="month-selector card">
+    <button mat-icon-button (click)="prevMonth()">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    <span class="month-name">{{ monthName() | titlecase }}</span>
+    <button mat-icon-button (click)="nextMonth()">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+
+  <div class="month-stats">
+
+    <div class="month-stat card">
+      <span class="month-stat-label">Ingresos</span>
+      <span class="month-stat-value income">
+        {{ monthlyStats().income | cop:true }}
+      </span>
+    </div>
+
+    <div class="month-stat card">
+      <span class="month-stat-label">Gastos</span>
+      <span class="month-stat-value expense">
+        {{ monthlyStats().expenses | cop }}
+      </span>
+    </div>
+
+    <div class="month-stat card">
+      <span class="month-stat-label">Balance</span>
+      <span class="month-stat-value"
+            [class.income]="monthlyStats().balance >= 0"
+            [class.expense]="monthlyStats().balance < 0">
+        {{ monthlyStats().balance | cop:true }}
+      </span>
+    </div>
+
+    <div class="month-stat card">
+      <span class="month-stat-label">Transacciones</span>
+      <span class="month-stat-value neutral">{{ monthlyStats().count }}</span>
+    </div>
+
+  </div>
+
+  <div class="charts-grid">
+
+    <div class="chart-card card">
+      <div class="card-header">
+        <h3>Últimos 6 meses</h3>
+      </div>
+      <div class="chart-wrap">
+        <canvas #barCanvas></canvas>
+      </div>
+    </div>
+
+    <div class="chart-card card">
+      <div class="card-header">
+        <h3>Gastos por categoría</h3>
+        <span class="card-sub">{{ monthName() | titlecase }}</span>
+      </div>
+      <div class="chart-wrap">
+        <canvas #pieCanvas></canvas>
+      </div>
+    </div>
+
+  </div>
+
+  @if (topExpenses().length > 0) {
+    <div class="top-card card">
+      <div class="card-header">
+        <h3>Top gastos del mes</h3>
+      </div>
+      <div class="top-list">
+        @for (item of topExpenses(); track item.category; let i = $index) {
+          <div class="top-item">
+            <span class="top-rank">#{{ i + 1 }}</span>
+            <span class="top-cat">{{ getCategoryLabel(item.category) }}</span>
+            <div class="top-bar-wrap">
+              <div class="top-bar"
+                   [style.width.%]="(item.amount / topExpenses()[0].amount) * 100">
+              </div>
+            </div>
+            <span class="top-amount">{{ item.amount | cop }}</span>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+</div>

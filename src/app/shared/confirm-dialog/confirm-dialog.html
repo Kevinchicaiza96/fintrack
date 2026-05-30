@@ -1,0 +1,13 @@
+<div class="confirm-container">
+  <div class="confirm-icon" [class.danger]="data.type === 'danger'">
+    <mat-icon>delete_outline</mat-icon>
+  </div>
+  <h2 class="confirm-title">{{ data.title }}</h2>
+  <p class="confirm-message">{{ data.message }}</p>
+  <div class="confirm-actions">
+    <button mat-stroked-button (click)="cancel()">Cancelar</button>
+    <button mat-flat-button class="btn-danger" (click)="confirm()">
+      {{ data.confirm }}
+    </button>
+  </div>
+</div>

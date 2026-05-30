@@ -1,0 +1,87 @@
+.dialog-container {
+  font-family: var(--font-main);
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid #f0ede8;
+
+  h2 {
+    font-size: 17px;
+    font-weight: 700;
+    color: #111;
+    margin: 0;
+    letter-spacing: -0.3px;
+  }
+}
+
+.dialog-form {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 24px;
+  gap: 4px;
+  mat-form-field { width: 100%; }
+}
+
+.type-toggle-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+
+  mat-button-toggle-group {
+    border-radius: 10px !important;
+    overflow: hidden;
+    border: 1px solid #ebebeb !important;
+  }
+
+  mat-button-toggle {
+    font-family: var(--font-main);
+    font-size: 13px;
+    font-weight: 600;
+
+    mat-icon { font-size: 17px; margin-right: 4px; }
+  }
+
+  .toggle-expense.mat-button-toggle-checked {
+    background: var(--expense-light) !important;
+    color: var(--expense) !important;
+  }
+
+  .toggle-income.mat-button-toggle-checked {
+    background: var(--income-light) !important;
+    color: var(--income) !important;
+  }
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+  padding-top: 16px;
+  border-top: 1px solid #f0ede8;
+}
+
+.btn-income {
+  --mdc-filled-button-container-color: var(--income) !important;
+}
+
+.btn-expense {
+  --mdc-filled-button-container-color: var(--expense) !important;
+}
+
+/* Quitar flechas en Chrome, Edge, Safari */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Quitar flechas en Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}

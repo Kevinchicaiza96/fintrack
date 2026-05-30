@@ -1,0 +1,32 @@
+<header class="topbar">
+  <div class="topbar-inner">
+
+    <div class="topbar-logo">
+      <div class="logo-mark">
+        <span class="material-symbols-rounded">account_balance</span>
+      </div>
+      <span class="logo-name">Fintrack</span>
+    </div>
+
+    <nav class="topbar-nav">
+      @for (item of navItems; track item.route) {
+        <a class="nav-link"
+           [routerLink]="item.route"
+           routerLinkActive="active">
+          <span class="material-symbols-rounded">{{ item.icon }}</span>
+          <span>{{ item.label }}</span>
+        </a>
+      }
+    </nav>
+
+    <div class="topbar-balance">
+      <span class="balance-label">Balance total</span>
+      <span class="balance-amount"
+            [class.positive]="balance() >= 0"
+            [class.negative]="balance() < 0">
+        {{ balance() | cop:true }}
+      </span>
+    </div>
+
+  </div>
+</header>

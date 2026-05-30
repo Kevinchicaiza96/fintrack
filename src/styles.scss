@@ -1,0 +1,303 @@
+@use '@angular/material' as mat;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+html {
+  @include mat.theme((
+    color: (
+      primary: mat.$violet-palette,
+      tertiary: mat.$cyan-palette,
+    ),
+    typography: 'Inter',
+    density: 0,
+  ));
+}
+
+:root {
+  --accent:        #7C3AED;
+  --accent-light:  rgba(124,58,237,0.08);
+  --accent-dark:   #6D28D9;
+
+  --income:        #059669;
+  --income-light:  rgba(5,150,105,0.08);
+  --expense:       #DC2626;
+  --expense-light: rgba(220,38,38,0.08);
+
+  --content-bg:    #F7F7F5;
+  --card-bg:       #ffffff;
+  --card-border:   #EBEBEB;
+  --card-shadow:   0 1px 3px rgba(0,0,0,.05), 0 1px 2px rgba(0,0,0,.03);
+  --card-shadow-hover: 0 8px 24px rgba(0,0,0,.08);
+
+  --topbar-bg:     #ffffff;
+  --topbar-border: #EBEBEB;
+  --topbar-height: 60px;
+
+  --font-main:  'Inter', sans-serif;
+  --font-mono:  'JetBrains Mono', monospace;
+
+  --radius-sm:  5px;
+  --radius-md:  10px;
+  --radius-lg:  14px;
+  --radius-xl:  20px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: var(--font-main);
+  font-size: 13px;
+  color: #111;
+  background: var(--content-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+// ── Cards ──────────────────────────────────────────
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--card-shadow);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-1px);
+  }
+}
+
+// ── Page header ────────────────────────────────────
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+
+  h1 {
+    font-size: 26px;
+    font-weight: 800;
+    color: #111;
+    margin: 0 0 4px;
+    letter-spacing: -0.8px;
+  }
+  p { color: #aaa; margin: 0; font-size: 11px; font-family: var(--font-mono); }
+}
+
+// ── Amount badges ──────────────────────────────────
+.amount-income {
+  color: var(--income);
+  font-weight: 600;
+  font-family: var(--font-mono);
+}
+
+.amount-expense {
+  color: var(--expense);
+  font-weight: 600;
+  font-family: var(--font-mono);
+}
+
+// ── Type chips ─────────────────────────────────────
+.type-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  font-family: var(--font-mono);
+
+  &.income  { background: var(--income-light);  color: var(--income); }
+  &.expense { background: var(--expense-light); color: var(--expense); }
+}
+
+// ── Material overrides ─────────────────────────────
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  background: #fff !important;
+  border-radius: var(--radius-xl) !important;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12) !important;
+}
+
+.mat-mdc-form-field {
+  .mdc-text-field { background: #f9f9f9 !important; }
+  .mdc-floating-label { color: #aaa !important; }
+  input, textarea { color: #111 !important; }
+}
+
+.mat-mdc-menu-panel {
+  background: #fff !important;
+  border: 1px solid #ebebeb !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,.08) !important;
+  .mat-mdc-menu-item { color: #333 !important; }
+  .mat-mdc-menu-item:hover { background: #f7f7f5 !important; }
+}
+
+.mat-mdc-select-panel {
+  background: #fff !important;
+  border: 1px solid #ebebeb !important;
+  .mat-mdc-option { color: #333 !important; }
+  .mat-mdc-option:hover { background: #f7f7f5 !important; }
+}
+
+.mdc-button--unelevated,
+.mat-mdc-unelevated-button {
+  --mdc-filled-button-container-color: var(--accent) !important;
+  --mdc-filled-button-label-text-color: #fff !important;
+  border-radius: 10px !important;
+}
+
+.mat-mdc-unelevated-button:not(:disabled) {
+  background-color: var(--accent) !important;
+  color: #fff !important;
+}
+
+.mat-mdc-outlined-button {
+  --mdc-outlined-button-outline-color: #e8e4df !important;
+  --mdc-outlined-button-label-text-color: #555 !important;
+  border-radius: 10px !important;
+}
+
+.mat-mdc-icon-button {
+  color: #ccc !important;
+  &:hover { color: var(--accent) !important; }
+}
+
+// ── Dialog shared ──────────────────────────────────
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid #f0ede8;
+
+  h2 {
+    font-size: 17px;
+    font-weight: 700;
+    color: #111;
+    margin: 0;
+    letter-spacing: -0.3px;
+  }
+}
+
+.dialog-form {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 24px;
+  gap: 4px;
+  mat-form-field { width: 100%; }
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 12px 24px 20px;
+  border-top: 1px solid #f0ede8;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+// ── Toast ──────────────────────────────────────────
+.mat-mdc-snack-bar-container {
+  &.toast-success .mdc-snackbar__surface {
+    background: #fff !important;
+    border: 1px solid #d1fae5;
+    border-left: 3px solid #059669;
+    box-shadow: 0 4px 12px rgba(0,0,0,.08) !important;
+    .mdc-snackbar__label { color: #059669 !important; font-family: var(--font-mono); font-size: 12px !important; }
+  }
+  &.toast-error .mdc-snackbar__surface {
+    background: #fff !important;
+    border: 1px solid #fee2e2;
+    border-left: 3px solid #ef4444;
+    box-shadow: 0 4px 12px rgba(0,0,0,.08) !important;
+    .mdc-snackbar__label { color: #ef4444 !important; font-family: var(--font-mono); font-size: 12px !important; }
+  }
+  &.toast-warning .mdc-snackbar__surface {
+    background: #fff !important;
+    border: 1px solid #fef3c7;
+    border-left: 3px solid #f59e0b;
+    box-shadow: 0 4px 12px rgba(0,0,0,.08) !important;
+    .mdc-snackbar__label { color: #d97706 !important; font-family: var(--font-mono); font-size: 12px !important; }
+  }
+  &.toast-info .mdc-snackbar__surface {
+    background: #fff !important;
+    border: 1px solid #e0e7ff;
+    border-left: 3px solid #7C3AED;
+    box-shadow: 0 4px 12px rgba(0,0,0,.08) !important;
+    .mdc-snackbar__label { color: #7C3AED !important; font-family: var(--font-mono); font-size: 12px !important; }
+  }
+}
+
+// ── Confirm dialog ─────────────────────────────────
+.confirm-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 28px 24px;
+  text-align: center;
+  font-family: var(--font-main);
+  max-width: 360px;
+}
+
+.confirm-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  mat-icon { font-size: 26px; width: 26px; height: 26px; }
+  &.danger  { background: #fee2e2; mat-icon { color: #dc2626; } }
+}
+
+.confirm-title   { font-size: 17px; font-weight: 700; color: #111; margin: 0 0 8px; }
+.confirm-message { font-size: 13px; color: #aaa; margin: 0 0 24px; line-height: 1.6; }
+.confirm-actions { display: flex; gap: 10px; width: 100%; justify-content: center; }
+.btn-danger { --mdc-filled-button-container-color: #dc2626 !important; }
+
+// ── Animaciones ────────────────────────────────────
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.card { animation: card-in 0.3s ease-out both; }
+
+// ── Scrollbar ──────────────────────────────────────
+::-webkit-scrollbar       { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #e5e5e5; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #ccc; }
+
+// ── Fintrack dialog panel ──────────────────────────
+.fintrack-dialog .mat-mdc-dialog-container .mdc-dialog__surface {
+  border-radius: var(--radius-xl) !important;
+}
+
+// ── Quitar flechas inputs numéricos ────────────────
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  appearance: textfield;      // estándar
+  -moz-appearance: textfield; // Firefox
+}

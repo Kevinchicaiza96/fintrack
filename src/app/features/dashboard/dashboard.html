@@ -1,0 +1,120 @@
+<div class="dashboard">
+
+  <div class="page-header">
+    <div>
+      <h1>Dashboard</h1>
+      <p>{{ today | date:"EEEE, d 'de' MMMM 'de' yyyy" }}</p>
+    </div>
+    <button mat-flat-button (click)="openNewTransaction()">
+      <mat-icon>add</mat-icon>
+      Nueva transacción
+    </button>
+  </div>
+
+  <div class="stats-grid">
+
+    <div class="stat-card card">
+      <div class="stat-icon balance">
+        <span class="material-symbols-rounded">account_balance_wallet</span>
+      </div>
+      <div class="stat-info">
+        <span class="stat-label">Balance total</span>
+        <span class="stat-value"
+              [class.positive]="transactionService.balance() >= 0"
+              [class.negative]="transactionService.balance() < 0">
+          {{ transactionService.balance() | cop:true }}
+        </span>
+      </div>
+    </div>
+
+    <div class="stat-card card">
+      <div class="stat-icon income">
+        <span class="material-symbols-rounded">trending_up</span>
+      </div>
+      <div class="stat-info">
+        <span class="stat-label">Ingresos del mes</span>
+        <span class="stat-value income">
+          {{ transactionService.monthlyIncome() | cop:true }}
+        </span>
+      </div>
+    </div>
+
+    <div class="stat-card card">
+      <div class="stat-icon expense">
+        <span class="material-symbols-rounded">trending_down</span>
+      </div>
+      <div class="stat-info">
+        <span class="stat-label">Gastos del mes</span>
+        <span class="stat-value expense">
+          {{ transactionService.monthlyExpenses() | cop }}
+        </span>
+      </div>
+    </div>
+
+    <div class="stat-card card">
+      <div class="stat-icon savings">
+        <span class="material-symbols-rounded">savings</span>
+      </div>
+      <div class="stat-info">
+        <span class="stat-label">Tasa de ahorro</span>
+        <span class="stat-value"
+              [class.positive]="savingsRate() >= 0"
+              [class.negative]="savingsRate() < 0">
+          {{ savingsRate() }}%
+        </span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="dashboard-grid">
+
+    <div class="chart-card card">
+      <div class="card-header">
+        <h3>Últimos 6 meses</h3>
+      </div>
+      <div class="chart-wrap">
+        <canvas #chartCanvas></canvas>
+      </div>
+    </div>
+
+    <div class="recent-card card">
+      <div class="card-header">
+        <h3>Recientes</h3>
+        <a routerLink="/transactions" class="card-link">Ver todas</a>
+      </div>
+
+      @if (recentTransactions().length === 0) {
+        <div class="empty-state">
+          <span class="material-symbols-rounded">receipt_long</span>
+          <p>Sin transacciones</p>
+          <button mat-stroked-button (click)="openNewTransaction()">
+            Agregar
+          </button>
+        </div>
+      } @else {
+        <div class="recent-list">
+          @for (tx of recentTransactions(); track tx.id) {
+            <div class="recent-item">
+              <div class="recent-icon"
+                   [class.income]="tx.type === 'income'"
+                   [class.expense]="tx.type === 'expense'">
+                <span class="material-symbols-rounded">{{ getCategoryIcon(tx.category) }}</span>
+              </div>
+              <div class="recent-info">
+                <p class="recent-desc">{{ tx.description }}</p>
+                <p class="recent-cat">{{ getCategoryLabel(tx.category) }} · {{ tx.date | date:'d MMM' }}</p>
+              </div>
+              <span class="recent-amount"
+                    [class.income]="tx.type === 'income'"
+                    [class.expense]="tx.type === 'expense'">
+                {{ tx.amount | cop:tx.type === 'income' }}
+              </span>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+  </div>
+</div>
